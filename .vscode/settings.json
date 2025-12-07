@@ -12,6 +12,21 @@
   "editor.tabSize": 2, // Tamanho da tabulação
   "explorer.compactFolders": false, // Mostrar todas as pastas na árvore de arquivos
 
+  // Configurações do Code Runner
+  // Limpar saída anterior ao rodar o código
+  "code-runner.clearPreviousOutput": true,
+
+  // Rodar no terminal integrado
+  "code-runner.runInTerminal": true,
+
+  // Ignorar seleção de código
+  "code-runner.ignoreSelection": true,
+
+  // Comando para rodar arquivos TypeScript (nesse caso o mesmo camando para rodar o tsx no terminal)
+  "code-runner.executorMap": {
+    "typescript": "clear; npx tsx"
+  },
+
   // 🛠 Formatação e Lint
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,

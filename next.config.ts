@@ -1,8 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  images: {
+    domains: ['localhost', 'example.com'], // adicione todos os domínios necessários aqui
+  },
 };
 
 export default nextConfig;

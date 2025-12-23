@@ -12,6 +12,9 @@
   "editor.tabSize": 2, // Tamanho da tabulação
   "explorer.compactFolders": false, // Mostrar todas as pastas na árvore de arquivos
 
+  // Desabilitar preview de arquivos ao clicar na árvore de arquivos
+  "workbench.editor.enablePreview": false,
+
   // Configurações do Code Runner
   // Limpar saída anterior ao rodar o código
   "code-runner.clearPreviousOutput": true,
@@ -26,6 +29,11 @@
   "code-runner.executorMap": {
     "typescript": "clear; npx tsx"
   },
+
+  // Configurações do TailwindCSS
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
 
   // 🛠 Formatação e Lint
   "editor.defaultFormatter": "esbenp.prettier-vscode",

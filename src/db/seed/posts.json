@@ -119,18 +119,6 @@
       "createdAt": "2025-01-07T22:54:10",
       "updatedAt": "2025-01-07T22:54:10",
       "author": "Carla Mendes"
-    },
-    {
-      "id": "d078af6a-4bb0-4439-b56a-f71ec2ed7c73",
-      "title": "Post Atualizado",
-      "content": "Conteúdo atualizado do post",
-      "author": "Autor Atualizado",
-      "coverImageUrl": "http://example.com/cover-updated.jpg",
-      "createdAt": "2025-12-07T03:19:20.628Z",
-      "updatedAt": "2025-12-07T03:19:20.629Z",
-      "excerpt": "Resumo atualizado do post",
-      "published": false,
-      "slug": "post-atualizado"
     }
   ]
 }

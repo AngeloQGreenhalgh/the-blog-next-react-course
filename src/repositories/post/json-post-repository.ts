@@ -17,7 +17,15 @@ const JSON_POSTS_FILE_PATH = resolve(
   'posts.json',
 );
 
+const SIMULATE_WAIT_IN_MS = 0; // 50 segundos
+
 export class JsonPostRepository implements PostRepository {
+  private async simulateWait() {
+    if (SIMULATE_WAIT_IN_MS <= 0) return;
+
+    await new Promise(resolve => setTimeout(resolve, SIMULATE_WAIT_IN_MS));
+  }
+
   // Função para ler os posts do arquivo JSON
   private async readFromDisk() {
     const jsonContent = await readFile(JSON_POSTS_FILE_PATH, 'utf-8');
@@ -45,15 +53,21 @@ export class JsonPostRepository implements PostRepository {
     }
   }
 
-  async findAll(): Promise<PostModel[]> {
+  async findAllPublic(): Promise<PostModel[]> {
+    await this.simulateWait(); // simulando espera
     await this.init();
+
+    console.log('\n', 'findAllPublic', '\n');
+
     const posts = await this.readFromDisk();
-    return posts as PostModel[];
+
+    return posts.filter((post: PostModel) => post.published) as PostModel[];
   }
 
   async findById(id: string): Promise<PostModel> {
+    await this.simulateWait(); // simulando espera
     await this.init();
-    const posts = await this.findAll();
+    const posts = await this.findAllPublic();
     const post = posts.find((post: PostModel) => post.id === id);
 
     if (!post) {
@@ -65,7 +79,7 @@ export class JsonPostRepository implements PostRepository {
 
   async create(postData: PostModel): Promise<PostModel> {
     await this.init();
-    const posts = await this.findAll();
+    const posts = await this.findAllPublic();
     postData.id = uuidv4(); // Gera um novo ID único para o post
     posts.push(postData);
 
@@ -77,7 +91,7 @@ export class JsonPostRepository implements PostRepository {
 
   async update(id: string, postData: PostModel): Promise<PostModel | null> {
     await this.init();
-    const posts = await this.findAll();
+    const posts = await this.findAllPublic();
     const postIndex = posts.findIndex((post: PostModel) => post.id === id);
 
     if (postIndex === -1) {
@@ -95,7 +109,7 @@ export class JsonPostRepository implements PostRepository {
 
   async delete(id: string): Promise<boolean> {
     await this.init();
-    const posts = await this.findAll();
+    const posts = await this.findAllPublic();
     const postIndex = posts.findIndex((post: PostModel) => post.id === id);
 
     if (postIndex === -1) {

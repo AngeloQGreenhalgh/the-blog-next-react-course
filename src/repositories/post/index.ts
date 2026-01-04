@@ -1,8 +1,8 @@
 import { PostModel } from '@/models/post/post-model';
-import { JsonPostRepository } from './json-post-repository';
 import { PostRepository } from './post-repository';
+import { DrizzlePostRepository } from './drizzle-post-repository';
 
-export const postRepository: PostRepository = new JsonPostRepository();
+export const postRepository: PostRepository = new DrizzlePostRepository();
 
 // Resolvendo promisses (pegando o resultado delas)
 // postRepository.findAll().then(posts => {

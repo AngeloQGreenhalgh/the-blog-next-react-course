@@ -28,7 +28,7 @@ Em outras palavras:
 
 Rota (/) -> Rota estática por um breve período de tempo, em seguida sofre atualização de conteúdo, está página terá o conteúdo atualizado em um tempo específico, voltando a ficar estática com os dados em cache (menor atualização)
 
-Rota(/) -> Rota estática até que algum conteúodo seja atualizado, ocorrendo uma validação de cache pelo servidor (atualização constante em um curto espaço de tempo)
+Rota(/) -> Rota estática até que algum conteúdo seja atualizado, ocorrendo uma validação de cache pelo servidor (atualização constante em um curto espaço de tempo)
 
 
 Tipos de rotas que temos em nossa site

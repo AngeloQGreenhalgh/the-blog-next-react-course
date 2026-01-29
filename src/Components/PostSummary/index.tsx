@@ -1,4 +1,4 @@
-import { formatDistanceToNow, formateDateTime } from '@/utils/format-datetime';
+import { formatDistanceToNow, formatDateTime } from '@/utils/format-datetime';
 import { PoastHeading } from '../PoastHeading';
 import { PostDate } from '../PostDate';
 

@@ -1,4 +1,4 @@
-import { PostModel } from '@/models/post/post-model';
+//import { PostModel } from '@/models/post/post-model';
 import { PostRepository } from './post-repository';
 import { DrizzlePostRepository } from './drizzle-post-repository';
 
@@ -72,4 +72,13 @@ export const postRepository: PostRepository = new DrizzlePostRepository();
 //   } else {
 //     console.log('Post não encontrado para remoção.');
 //   }
+// })();
+
+// (async () => {
+//   const posts = await postRepository.findAllPublic();
+//   console.log('Posts públicos encontrados:', posts.length);
+
+//   posts.map(post => {
+//     console.log('post: ', post.slug);
+//   });
 // })();

@@ -1,6 +1,8 @@
 import { PostModel } from '@/models/post/post-model';
 import { PostRepository } from './post-repository';
 import { drizzleDb } from '@/db/drizzle';
+import { postTable } from '@/db/drizzle/schemas';
+import { eq } from 'drizzle-orm';
 
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
@@ -35,7 +37,7 @@ export class DrizzlePostRepository implements PostRepository {
     return posts;
   }
   async findById(id: string): Promise<PostModel> {
-    console.log('\n', 'findById', '\n');
+    console.log('\n', 'findById:', id, '\n');
     const post = await drizzleDb.query.posts.findFirst({
       where: (post, { eq }) => eq(post.id, id),
     });
@@ -48,9 +50,42 @@ export class DrizzlePostRepository implements PostRepository {
   async create(postData: PostModel): Promise<PostModel> {
     throw new Error('Method not implemented.');
   }
-  async update(id: string, postData: PostModel): Promise<PostModel | null> {
-    throw new Error('Method not implemented.');
+  async update(
+    id: string,
+    postData: Partial<PostModel>,
+  ): Promise<PostModel | null> {
+    const { id: _, ...dataToUpdate } = postData;
+
+    // monta dinamicamente os campos a atualizar
+    const fieldsToUpdate: Partial<PostModel> = {};
+
+    if (dataToUpdate.title !== undefined)
+      fieldsToUpdate.title = dataToUpdate.title;
+    if (dataToUpdate.slug !== undefined)
+      fieldsToUpdate.slug = dataToUpdate.slug;
+    if (dataToUpdate.excerpt !== undefined)
+      fieldsToUpdate.excerpt = dataToUpdate.excerpt;
+    if (dataToUpdate.content !== undefined)
+      fieldsToUpdate.content = dataToUpdate.content;
+    if (dataToUpdate.coverImageUrl !== undefined)
+      fieldsToUpdate.coverImageUrl = dataToUpdate.coverImageUrl;
+    if (dataToUpdate.published !== undefined)
+      fieldsToUpdate.published = dataToUpdate.published;
+    if (dataToUpdate.author !== undefined)
+      fieldsToUpdate.author = dataToUpdate.author;
+
+    // sempre atualiza o timestamp
+    fieldsToUpdate.updatedAt = new Date().toISOString();
+
+    const [updated] = await drizzleDb
+      .update(postTable)
+      .set(fieldsToUpdate)
+      .where(eq(postTable.id, id))
+      .returning();
+
+    return updated ?? null;
   }
+
   async delete(id: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
@@ -58,18 +93,20 @@ export class DrizzlePostRepository implements PostRepository {
 
 (async () => {
   const repo = new DrizzlePostRepository();
-  // const posts = await repo.findAllPublic();
+  // console.log('Teste do DrizzlePostRepository');
+  // const posts = await repo.findAll();
   // posts.forEach(post => {
   //   console.log(post.slug, post.published);
   // });
 
-  // const post = await repo.findBySlugPublic(
-  //   'rotina-matinal-de-pessoas-altamente-eficazes',
-  // );
-  // console.log(post);
+  // const post = await repo.findAll();
+
+  // post.slug = 'rotina-matinal-de-pessoas-altamente-eficazes';
+  // const postUpdate = await repo.update(post.id, post);
+  // console.log(postUpdate);
 
   // const post = await repo.findBySlugPublic('teste');
-  // console.log(post);
+  //console.log(post);
 
   // const posts = await repo.findAll();
   // posts.forEach(post => {
@@ -79,11 +116,17 @@ export class DrizzlePostRepository implements PostRepository {
   // 6b204dab-2312-4525-820a-a0463560835f como-a-tecnologia-impacta-nosso-bem-estar false
   // 76396dd3-9581-43b5-856d-fe1a78714e8c os-desafios-do-trabalho-remoto-moderno true
 
-  // const post = await repo.findById('6b204dab-2312-4525-820a-a0463560835f');
-  // console.log(post);
+  const post = await repo.findById('99f8add4-7684-4c16-a316-616271db199e');
+  console.log(post);
+  post.title = 'Rotina matinal de pessoas altamente eficazes';
+  console.log(post);
+  const postUpdate = await repo.update(post.id, post);
+  console.log(postUpdate);
 
-  // const post = await repo.findById('76396dd3-9581-43b5-856d-fe1a78714e8c');
-  // console.log(post);
+  // const post1 = await repo.findById('99f8add4-7684-4c16-a316-616271db199e');
+  // console.log(post1);
+  // // const post = await repo.findById('76396dd3-9581-43b5-856d-fe1a78714e8c');
+  //  console.log(postUpdate);
   // const post = await repo.findById('76396dd3-9581-43b5-856d-fe1a78714e8m');
   // console.log(post);
 })();

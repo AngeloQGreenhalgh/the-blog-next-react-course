@@ -15,7 +15,7 @@ export const findAllPublicPostsCached = unstable_cache(
 
 // Imadiatle invocke function expression (IIFE)
 // Função que é criada e executada ao mesmo tempo
-export const findPostBySlugCached = (slug: string) =>
+export const findPublicPostBySlugCached = (slug: string) =>
   unstable_cache(
     async (slug: string) => {
       const post = await postRepository
@@ -31,7 +31,3 @@ export const findPostBySlugCached = (slug: string) =>
       tags: [`post-${slug}`],
     },
   )(slug);
-
-export const findPostByIdCached = cache(
-  async (id: string) => await postRepository.findById(id),
-);

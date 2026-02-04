@@ -1,5 +1,20 @@
+import { findAllPostsAdmin } from '@/lib/post/queries/admin';
+import { Metadata } from 'next';
+
 export const dynamic = 'force-dynamic';
 
-export default function AdminPostPage() {
-  return <div className='py-16 text-6xl'>Admin Post Page</div>;
+export const metadata: Metadata = {
+  title: 'Post Admin',
+};
+
+export default async function AdminPostPage() {
+  const posts = await findAllPostsAdmin();
+
+  return (
+    <div className='py-16'>
+      {posts.map(post => {
+        return <div key={post.id}>{post.title}</div>;
+      })}
+    </div>
+  );
 }

@@ -4,6 +4,7 @@ import { writeFile, readFile, access } from 'fs/promises';
 import { constants as fsConstants } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import { PostModel } from '@/models/post/post-model';
+import { SIMULATE_WAIT_IN_MS } from '@/lib/constants';
 
 // Definindo o caminho raiz da aplicação
 const ROOT_DIR = process.cwd();
@@ -16,8 +17,6 @@ const JSON_POSTS_FILE_PATH = resolve(
   'seed',
   'posts.json',
 );
-
-const SIMULATE_WAIT_IN_MS = 0; // 50 segundos
 
 export class JsonPostRepository implements PostRepository {
   private async simulateWait() {

@@ -1,6 +1,8 @@
 'use client';
+import { deletePostAction } from '@/actions/post/delete-post-action';
 import clsx from 'clsx';
 import { Trash2Icon } from 'lucide-react';
+import { useTransition } from 'react';
 
 type DeletePostButtonProps = {
   id: string;
@@ -8,8 +10,18 @@ type DeletePostButtonProps = {
 };
 
 export function DeletePostButton({ id, title }: DeletePostButtonProps) {
-  function handleClick() {
-    alert(`Post com ID ${id} será deletado!`);
+  // O useTransition é um hook do React que permite que você
+  // marque uma atualização como "transição". Isso é útil para indicar
+  // que uma atualização é de baixa prioridade e pode ser adiada para
+  // melhorar a experiência do usuário.
+  const [isPending, startTransition] = useTransition();
+
+  async function handleClick() {
+    if (!confirm('Tem certeza?')) return;
+    startTransition(async () => {
+      const result = await deletePostAction(id);
+      alert(`O result é ${result}!`);
+    });
   }
   return (
     <button
@@ -17,10 +29,12 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
         'text-red-500 cursor-pointer transition',
         '[&_svg]:w-4 [&_svg]:h-4',
         'hover:scale-120 text-red-700',
+        'disabled:text-slate-600 disabled:cursor-not-allowed',
       )}
       aria-label={`Apagar post: ${title}`}
       title={`Apagar post: ${title}`}
       onClick={handleClick}
+      disabled={isPending}
     >
       <Trash2Icon />
     </button>

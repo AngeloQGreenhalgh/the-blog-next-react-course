@@ -1,6 +1,7 @@
 'use server';
 import { asyncDelay } from '@/utils/async-delay';
 import { logColor } from '@/utils/log-color';
+import { error } from 'console';
 
 export async function deletePostAction(id: string) {
   await asyncDelay(2000); // Simula um atraso de 2 segundos para a operação de deleção
